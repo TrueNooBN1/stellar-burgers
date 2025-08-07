@@ -6,7 +6,20 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 
-const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
+// import { BurgerConstructorSlice } from '../slices/burgerConstructorSlice/burgerConstructorSlice';
+// import { IngredientsSlice } from '../slices/ingredientsSlice/ingredientsSlice';
+import { UserSlice } from './slices/UserSlice/UserSlice';
+// import { OrderSlice } from '../slices/orderSlice/orderSlice';
+// import { FeedSlice } from '../slices/feedSlice/feedSlice';
+
+const rootReducer = () => {
+  // [IngredientsSlice.name]: IngredientsSlice.reducer,
+  // [BurgerConstructorSlice.name]: BurgerConstructorSlice.reducer,
+  // [UserSlice.name]: UserSlice.reducer,
+  // [OrderSlice.name]: OrderSlice.reducer,
+  // [FeedSlice.name]: FeedSlice.reducer
+};
+// const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
 
 const store = configureStore({
   reducer: rootReducer,
@@ -21,3 +34,4 @@ export const useDispatch: () => AppDispatch = () => dispatchHook();
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 
 export default store;
+
