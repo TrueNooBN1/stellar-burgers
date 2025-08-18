@@ -38,11 +38,16 @@ export const IngredientSlice = createSlice({
   },
   selectors: {
     ingredientsSelector: (state) => state.ingredients,
-    ingredientsStatusSelector: (state) => state.status
+    ingredientsStatusSelector: (state) => state.status,
+    ingredientsSelectorById: (state, id: string) =>
+      state.ingredients.filter((value) => value._id === id)
   }
 });
 
-export const { ingredientsSelector, ingredientsStatusSelector } =
-  IngredientSlice.selectors;
+export const {
+  ingredientsSelector,
+  ingredientsStatusSelector,
+  ingredientsSelectorById
+} = IngredientSlice.selectors;
 
 export const IngredientSliceReducer = IngredientSlice.reducer;
