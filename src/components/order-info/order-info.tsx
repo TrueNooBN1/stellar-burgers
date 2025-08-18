@@ -5,6 +5,7 @@ import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  clearOrder,
   getOrderByNumber,
   orderSelector
 } from './../../services/slices/OrderSlice/OrderSlice';
@@ -13,12 +14,16 @@ import { AppDispatch } from 'src/services/store';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderId = useParams<{ number: string }>().number;
+  const orderId = useParams<{ number: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const orderData = useSelector(orderSelector);
+  // console.log(orderId);
 
   useEffect(() => {
     dispatch(getOrderByNumber(Number(orderId)));
+    return () => {
+      dispatch(clearOrder());
+    };
   }, [dispatch, orderId]);
 
   const ingredients: TIngredient[] = useSelector(ingredientsSelector);

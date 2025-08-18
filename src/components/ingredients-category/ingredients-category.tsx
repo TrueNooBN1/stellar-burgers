@@ -12,7 +12,6 @@ export const IngredientsCategory = forwardRef<
   /** TODO: взять переменную из стора */
 
   const burgerConstructor = useSelector(constructorIngredientsSelector);
-  console.log(burgerConstructor);
 
   const ingredientsCounters = useMemo(() => {
     const { bun, ingredients } = burgerConstructor;

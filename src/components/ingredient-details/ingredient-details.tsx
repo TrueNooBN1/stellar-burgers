@@ -6,10 +6,14 @@ import { ingredientsSelector } from './../../services/slices/IngredientSlice/Ing
 import { useParams } from 'react-router-dom';
 
 export const IngredientDetails: FC = () => {
-  /** TODO: взять переменную из стора */
   const ingredientsData = useSelector(ingredientsSelector);
   const params = useParams<{ id: string }>();
-  const ingredientData = ingredientsData.filter(
+
+  if (!ingredientsData) {
+    return <Preloader />;
+  }
+
+  const ingredientData = ingredientsData.find(
     (value) => value._id === params.id
   );
 
@@ -17,5 +21,5 @@ export const IngredientDetails: FC = () => {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData[0]} />;
+  return <IngredientDetailsUI ingredientData={ingredientData} />;
 };

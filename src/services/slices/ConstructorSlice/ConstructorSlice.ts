@@ -16,10 +16,8 @@ const swapByIndex = (
   b: number,
   arr: TConstructorIngredient[]
 ): TConstructorIngredient[] => {
-  const newArr = [...arr];
-  newArr[a] = arr[b];
-  newArr[b] = arr[a];
-  return newArr;
+  arr[a] = arr.splice(b, 1, arr[a])[0];
+  return arr;
 };
 
 export const ConstructorSlice = createSlice({
@@ -41,26 +39,23 @@ export const ConstructorSlice = createSlice({
     },
     deleteIngredient: (state, action: PayloadAction<string>) => {
       state.ingredients = state.ingredients.filter(
-        (value) => value.id !== action.payload
+        (value) => value._id !== action.payload
       );
     },
-    ingredientToTop: (state, action: PayloadAction<TConstructorIngredient>) => {
+    ingredientToTop: (state, action: PayloadAction<string>) => {
       const index = state.ingredients.findIndex(
-        (value) => value === action.payload
+        (value) => value._id === action.payload
       );
       if (index > 0) {
-        state.ingredients = swapByIndex(index, index - 1, state.ingredients);
+        state.ingredients = swapByIndex(index - 1, index, state.ingredients);
       }
     },
-    ingredientToBottom: (
-      state,
-      action: PayloadAction<TConstructorIngredient>
-    ) => {
+    ingredientToBottom: (state, action: PayloadAction<string>) => {
       const index = state.ingredients.findIndex(
-        (value) => value === action.payload
+        (value) => value._id === action.payload
       );
       if (index < state.ingredients.length - 1) {
-        state.ingredients = swapByIndex(index, index + 1, state.ingredients);
+        state.ingredients = swapByIndex(index + 1, index, state.ingredients);
       }
     },
     clearIngredients: (state) => {

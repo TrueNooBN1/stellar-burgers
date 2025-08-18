@@ -38,7 +38,8 @@ const App = () => {
       <AppHeader />
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
-        <Route path='/feed' element={<Feed />}>
+        <Route path='/feed'>
+          <Route index element={<Feed />} />
           <Route path=':number' element={<OrderInfo />} />
         </Route>
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
