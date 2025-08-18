@@ -8,7 +8,7 @@ import {
   updateUserApi
 } from '../../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ERequestStatus, TUser } from '../../../utils/types';
+import { ReqStatus, TUser } from '../../../utils/types';
 import { deleteCookie, setCookie } from '../../../utils/cookie';
 
 export const getUser = createAsyncThunk(
@@ -74,7 +74,7 @@ type TUserState = {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
   user: TUser | null;
-  status: ERequestStatus;
+  status: ReqStatus;
   error?: string | null;
 };
 
@@ -82,7 +82,7 @@ export const initialState: TUserState = {
   isAuthChecked: false,
   isAuthenticated: false,
   user: null,
-  status: ERequestStatus.Idle,
+  status: ReqStatus.Idle,
   error: null
 };
 
@@ -94,87 +94,87 @@ export const UserSlice = createSlice({
     builder
       .addCase(getUser.pending, (state) => {
         state.isAuthChecked = false;
-        state.status = ERequestStatus.Loading;
+        state.status = ReqStatus.Loading;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.status = ERequestStatus.Success;
+        state.status = ReqStatus.Success;
         state.error = null;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = false;
-        state.status = ERequestStatus.Failed;
+        state.status = ReqStatus.Failed;
         state.error = action.error.message;
       })
       .addCase(registerUser.pending, (state) => {
         state.isAuthChecked = false;
         state.isAuthenticated = false;
-        state.status = ERequestStatus.Loading;
+        state.status = ReqStatus.Loading;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.status = ERequestStatus.Success;
+        state.status = ReqStatus.Success;
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = false;
-        state.status = ERequestStatus.Failed;
+        state.status = ReqStatus.Failed;
         state.error = action.error.message;
       })
       .addCase(loginUser.pending, (state) => {
         state.isAuthChecked = false;
         state.isAuthenticated = false;
-        state.status = ERequestStatus.Loading;
+        state.status = ReqStatus.Loading;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = true;
         state.user = action.payload;
-        state.status = ERequestStatus.Success;
+        state.status = ReqStatus.Success;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = false;
-        state.status = ERequestStatus.Failed;
+        state.status = ReqStatus.Failed;
         state.error = action.error.message;
       })
       .addCase(updateUser.pending, (state) => {
-        state.status = ERequestStatus.Loading;
+        state.status = ReqStatus.Loading;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = true;
         state.user = action.payload.user;
-        state.status = ERequestStatus.Success;
+        state.status = ReqStatus.Success;
         state.error = null;
       })
       .addCase(updateUser.rejected, (state, action) => {
-        state.status = ERequestStatus.Failed;
+        state.status = ReqStatus.Failed;
         state.error = action.error.message;
       })
       .addCase(logoutUser.pending, (state) => {
         state.isAuthChecked = true;
         state.isAuthenticated = true;
-        state.status = ERequestStatus.Loading;
+        state.status = ReqStatus.Loading;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.isAuthChecked = true;
         state.isAuthenticated = false;
         state.user = null;
         state.error = null;
-        state.status = ERequestStatus.Success;
+        state.status = ReqStatus.Success;
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isAuthChecked = true;
         state.isAuthenticated = true;
-        state.status = ERequestStatus.Failed;
+        state.status = ReqStatus.Failed;
         state.error = action.error.message;
       });
   },

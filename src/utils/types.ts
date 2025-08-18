@@ -39,7 +39,7 @@ export type TUser = {
 
 export type TTabMode = 'bun' | 'sauce' | 'main';
 
-export enum ERequestStatus {
+export enum ReqStatus {
   Idle = 'Idle',
   Loading = 'Loading',
   Success = 'Success',
