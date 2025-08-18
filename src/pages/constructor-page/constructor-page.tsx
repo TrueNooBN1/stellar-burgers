@@ -12,7 +12,8 @@ import { ReqStatus } from '@utils-types';
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
   const isIngredientsLoadingStoreState = useSelector(ingredientsStatusSelector);
-  const isIngredientsLoading =  isIngredientsLoadingStoreState === ReqStatus.Loading;
+  const isIngredientsLoading =
+    isIngredientsLoadingStoreState === ReqStatus.Loading;
 
   return (
     <>
