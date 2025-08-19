@@ -38,9 +38,13 @@ export const ConstructorSlice = createSlice({
       }
     },
     deleteIngredient: (state, action: PayloadAction<string>) => {
-      state.ingredients = state.ingredients.filter(
-        (value) => value._id !== action.payload
+      const searchIndex = state.ingredients.findIndex(
+        (value) => value._id === action.payload
       );
+      if (searchIndex !== -1)
+        state.ingredients = state.ingredients.filter(
+          (value, index) => index !== searchIndex
+        );
     },
     ingredientToTop: (state, action: PayloadAction<string>) => {
       const index = state.ingredients.findIndex(

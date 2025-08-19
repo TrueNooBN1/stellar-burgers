@@ -15,10 +15,9 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protected-route/protected-route';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from './../../services/store';
 import { useEffect } from 'react';
 import { getIngredient } from './../../services/slices/IngredientSlice/IngredientSlice';
-import { AppDispatch } from 'src/services/store';
 import { getUserData } from './../../services/slices/UserSlice/UserSlice';
 
 const App = () => {
@@ -28,7 +27,7 @@ const App = () => {
   const closeModal = () => {
     navigate(backgroundLocation || '/');
   };
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredient());

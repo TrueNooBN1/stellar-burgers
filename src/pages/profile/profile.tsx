@@ -4,16 +4,15 @@ import {
   updateUser,
   userDataSelector
 } from './../../services/slices/UserSlice/UserSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from './../../services/store';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch } from 'src/services/store';
 import { TRegisterData } from '@api';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
   const user = useSelector(userDataSelector);
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   if (!user) {
     navigate('/login');

@@ -2,7 +2,7 @@ import { getFeedsApi } from '../../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ReqStatus, TOrdersData } from './../../../utils/types';
 
-export const getFeed = createAsyncThunk('feed', async () => getFeedsApi());
+export const getFeed = createAsyncThunk('feed', getFeedsApi);
 
 interface IFeedSlice {
   feed: TOrdersData;

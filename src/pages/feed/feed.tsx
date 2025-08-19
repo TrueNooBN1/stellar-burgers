@@ -6,13 +6,12 @@ import {
   feedOrdersSelector,
   getFeed
 } from './../../services/slices/FeedSlice/FeedSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from 'src/services/store';
+import { useSelector, useDispatch } from './../../services/store';
 
 export const Feed: FC = () => {
   /** TODO: взять переменную из стора */
   const orders: TOrder[] = useSelector(feedOrdersSelector);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getFeed());
