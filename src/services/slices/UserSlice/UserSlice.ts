@@ -1,191 +1,210 @@
-// import {
-//   getUserApi,
-//   loginUserApi,
-//   logoutApi,
-//   registerUserApi,
-//   TLoginData,
-//   TRegisterData,
-//   updateUserApi
-// } from '../../../utils/burger-api';
-// import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-// import { ReqStatus, TUser } from '../../../utils/types';
-// import { deleteCookie, setCookie } from '../../../utils/cookie';
+import {
+  registerUserApi,
+  loginUserApi,
+  forgotPasswordApi,
+  resetPasswordApi,
+  getUserApi,
+  updateUserApi,
+  logoutApi,
+  TLoginData,
+  TRegisterData
+} from '../../../utils/burger-api';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { ReqStatus, TUser } from '../../../utils/types';
+import { deleteCookie, setCookie } from '../../../utils/cookie';
 
-// export const getUser = createAsyncThunk(
-//   'user/get',
-//   async (_, { rejectWithValue }) => {
-//     const reply = await getUserApi();
-//     if (!reply.success) {
-//       return rejectWithValue(reply);
-//     }
-//     return reply;
-//   }
-// );
+export const registerUser = createAsyncThunk(
+  'registerUser',
+  async (data: TRegisterData, { rejectWithValue }) => {
+    const reply = await registerUserApi(data);
+    return reply.success ? reply : rejectWithValue(reply);
+  }
+);
 
-// export const registerUser = createAsyncThunk(
-//   'user/register',
-//   async (data: TRegisterData, { rejectWithValue }) => {
-//     const reply = await registerUserApi(data);
-//     if (!reply.success) {
-//       return rejectWithValue(data);
-//     }
-//     setCookie('accessToken', reply.accessToken);
-//     localStorage.setItem('refreshToken', reply.refreshToken);
-//     return reply;
-//   }
-// );
+export const loginUser = createAsyncThunk(
+  'loginUser',
+  async (data: TLoginData, { rejectWithValue }) => {
+    const reply = await loginUserApi(data);
+    return reply.success ? reply : rejectWithValue(reply);
+  }
+);
 
-// export const loginUser = createAsyncThunk(
-//   'user/login',
-//   async (data: TLoginData, { rejectWithValue }) => {
-//     const reply = await loginUserApi(data);
-//     if (!reply.success) {
-//       return rejectWithValue(data);
-//     }
-//     setCookie('accessToken', reply.accessToken);
-//     localStorage.setItem('refreshToken', reply.refreshToken);
-//     return reply.user;
-//   }
-// );
+export const forgotPassword = createAsyncThunk(
+  'forgotPassword',
+  async (data: { email: string }, { rejectWithValue }) => {
+    const reply = await forgotPasswordApi(data);
+    return reply.success ? reply : rejectWithValue(reply);
+  }
+);
 
-// export const updateUser = createAsyncThunk(
-//   'user/update',
-//   async (user: TRegisterData, { rejectWithValue }) => {
-//     const reply = await updateUserApi(user);
-//     if (!reply.success) {
-//       return rejectWithValue(reply);
-//     }
-//     return reply;
-//   }
-// );
+export const resetPassword = createAsyncThunk(
+  'resetPassword',
+  async (data: { password: string; token: string }, { rejectWithValue }) => {
+    const reply = await resetPasswordApi(data);
+    return reply.success ? reply : rejectWithValue(reply);
+  }
+);
 
-// export const logoutUser = createAsyncThunk(
-//   'user/logout',
-//   async (_, { rejectWithValue }) => {
-//     const reply = await logoutApi();
-//     if (!reply.success) {
-//       return rejectWithValue(reply);
-//     }
-//     deleteCookie('accessToken');
-//   }
-// );
+export const getUserData = createAsyncThunk(
+  'userData',
+  async (_, { rejectWithValue }) => {
+    const reply = await getUserApi();
+    return reply.success ? reply : rejectWithValue(reply);
+  }
+);
 
-// type TUserState = {
-//   isAuthChecked: boolean;
-//   isAuthenticated: boolean;
-//   user: TUser | null;
-//   status: ReqStatus;
-//   error?: string | null;
-// };
+export const updateUser = createAsyncThunk(
+  'updateUser',
+  async (data: Partial<TRegisterData>, { rejectWithValue }) => {
+    const reply = await updateUserApi(data);
+    return reply.success ? reply : rejectWithValue(reply);
+  }
+);
 
-// export const initialState: TUserState = {
-//   isAuthChecked: false,
-//   isAuthenticated: false,
-//   user: null,
-//   status: ReqStatus.Idle,
-//   error: null
-// };
+export const logoutUser = createAsyncThunk(
+  'logoutUser',
+  async (_, { rejectWithValue }) => {
+    const reply = await logoutApi();
+    return reply.success ? reply : rejectWithValue(reply);
+  }
+);
 
-// export const UserSlice = createSlice({
-//   name: 'user',
-//   initialState: initialState,
-//   reducers: {},
-//   extraReducers(builder) {
-//     builder
-//       .addCase(getUser.pending, (state) => {
-//         state.isAuthChecked = false;
-//         state.status = ReqStatus.Loading;
-//       })
-//       .addCase(getUser.fulfilled, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = true;
-//         state.user = action.payload.user;
-//         state.status = ReqStatus.Success;
-//         state.error = null;
-//       })
-//       .addCase(getUser.rejected, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = false;
-//         state.status = ReqStatus.Failed;
-//         state.error = action.error.message;
-//       })
-//       .addCase(registerUser.pending, (state) => {
-//         state.isAuthChecked = false;
-//         state.isAuthenticated = false;
-//         state.status = ReqStatus.Loading;
-//       })
-//       .addCase(registerUser.fulfilled, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = true;
-//         state.user = action.payload.user;
-//         state.status = ReqStatus.Success;
-//         state.error = null;
-//       })
-//       .addCase(registerUser.rejected, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = false;
-//         state.status = ReqStatus.Failed;
-//         state.error = action.error.message;
-//       })
-//       .addCase(loginUser.pending, (state) => {
-//         state.isAuthChecked = false;
-//         state.isAuthenticated = false;
-//         state.status = ReqStatus.Loading;
-//       })
-//       .addCase(loginUser.fulfilled, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = true;
-//         state.user = action.payload;
-//         state.status = ReqStatus.Success;
-//         state.error = null;
-//       })
-//       .addCase(loginUser.rejected, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = false;
-//         state.status = ReqStatus.Failed;
-//         state.error = action.error.message;
-//       })
-//       .addCase(updateUser.pending, (state) => {
-//         state.status = ReqStatus.Loading;
-//       })
-//       .addCase(updateUser.fulfilled, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = true;
-//         state.user = action.payload.user;
-//         state.status = ReqStatus.Success;
-//         state.error = null;
-//       })
-//       .addCase(updateUser.rejected, (state, action) => {
-//         state.status = ReqStatus.Failed;
-//         state.error = action.error.message;
-//       })
-//       .addCase(logoutUser.pending, (state) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = true;
-//         state.status = ReqStatus.Loading;
-//       })
-//       .addCase(logoutUser.fulfilled, (state) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = false;
-//         state.user = null;
-//         state.error = null;
-//         state.status = ReqStatus.Success;
-//       })
-//       .addCase(logoutUser.rejected, (state, action) => {
-//         state.isAuthChecked = true;
-//         state.isAuthenticated = true;
-//         state.status = ReqStatus.Failed;
-//         state.error = action.error.message;
-//       });
-//   },
-//   selectors: {
-//     isAuthCheckedSelector: (state) => state.isAuthChecked,
-//     isAuthenticatedSelector: (state) => state.isAuthenticated,
-//     userDataSelector: (state) => state.user,
-//     userStatusSelector: (state) => state.status
-//   }
-// });
+interface IUserSlice {
+  isAuthChecked: boolean; // флаг для статуса проверки токена пользователя
+  isAuthenticated: boolean;
+  data: TUser | null;
+  loginUserError: string | null | undefined;
+  loginUserRequestStatus: ReqStatus;
+}
 
-// export const UserSelector = UserSlice.selectors;
+const initialState: IUserSlice = {
+  isAuthChecked: false,
+  isAuthenticated: false,
+  data: null,
+  loginUserError: null,
+  loginUserRequestStatus: ReqStatus.Idle
+};
 
-// export const UserSliceReducer = UserSlice.reducer;
+export const UserSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.isAuthChecked = false;
+        state.isAuthenticated = false;
+        state.loginUserRequestStatus = ReqStatus.Loading;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Success;
+        state.isAuthChecked = true;
+        state.isAuthenticated = true;
+        state.data = action.payload.user;
+        setCookie('accessToken', action.payload.accessToken);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
+        state.loginUserError = null;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isAuthChecked = false;
+        state.isAuthenticated = false;
+        state.loginUserRequestStatus = ReqStatus.Failed;
+        state.loginUserError = action.error.message;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.isAuthChecked = false;
+        state.isAuthenticated = false;
+        state.loginUserRequestStatus = ReqStatus.Loading;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Success;
+        state.isAuthChecked = true;
+        state.isAuthenticated = true;
+        state.data = action.payload.user;
+        setCookie('accessToken', action.payload.accessToken);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
+        state.loginUserError = null;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Failed;
+        state.loginUserError = action.error.message;
+        state.isAuthChecked = true;
+        state.isAuthenticated = false;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.loginUserRequestStatus = ReqStatus.Loading;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Success;
+        state.loginUserError = null;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Failed;
+        state.loginUserError = action.error.message;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.loginUserRequestStatus = ReqStatus.Loading;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Success;
+        state.loginUserError = null;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Failed;
+        state.loginUserError = action.error.message;
+      })
+      .addCase(getUserData.pending, (state) => {
+        state.loginUserRequestStatus = ReqStatus.Loading;
+      })
+      .addCase(getUserData.fulfilled, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Success;
+        state.isAuthChecked = true;
+        state.isAuthenticated = true;
+        state.data = action.payload.user;
+        state.loginUserError = null;
+      })
+      .addCase(getUserData.rejected, (state, action) => {
+        state.isAuthChecked = true;
+        state.isAuthenticated = false;
+        state.loginUserRequestStatus = ReqStatus.Failed;
+        state.loginUserError = action.error.message;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loginUserRequestStatus = ReqStatus.Loading;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Success;
+        state.data = action.payload.user;
+        state.loginUserError = null;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Failed;
+        state.loginUserError = action.error.message;
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.loginUserRequestStatus = ReqStatus.Loading;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.isAuthenticated = false;
+        state.data = null;
+        state.loginUserError = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loginUserRequestStatus = ReqStatus.Failed;
+        state.loginUserError = action.error.message;
+      });
+  },
+  selectors: {
+    userAuthCheckedSelector: (state) => state.isAuthChecked,
+    userAuthenticatedSelector: (state) => state.isAuthenticated,
+    userDataSelector: (state) => state.data,
+    userRequestStatusSelector: (state) => state.loginUserRequestStatus
+  }
+});
+
+export const {
+  userAuthCheckedSelector,
+  userAuthenticatedSelector,
+  userDataSelector,
+  userRequestStatusSelector
+} = UserSlice.selectors;

@@ -39,7 +39,8 @@ export const IngredientSlice = createSlice({
   selectors: {
     ingredientsSelector: (state) => state.ingredients,
     ingredientsStatusSelector: (state) => state.status,
-    ingredientsSelectorById: (state, id: string) => state.ingredients.filter(value=>value._id === id)
+    ingredientsSelectorById: (state, id: string) =>
+      state.ingredients.filter((value) => value._id === id)
   }
 });
 

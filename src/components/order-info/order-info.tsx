@@ -17,7 +17,6 @@ export const OrderInfo: FC = () => {
   const orderId = useParams<{ number: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const orderData = useSelector(orderSelector);
-  // console.log(orderId);
 
   useEffect(() => {
     dispatch(getOrderByNumber(Number(orderId)));

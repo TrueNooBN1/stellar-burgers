@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getIngredient } from './../../services/slices/IngredientSlice/IngredientSlice';
 import { AppDispatch } from 'src/services/store';
+import { getUserData } from './../../services/slices/UserSlice/UserSlice';
 
 const App = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredient());
+    dispatch(getUserData());
   }, [dispatch]);
 
   return (
@@ -110,7 +112,7 @@ const App = () => {
       {backgroundLocation && (
         <Routes>
           <Route
-            path='/orders/:number'
+            path='/profile/orders/:number'
             element={
               <ProtectedRoute onlyUnAuth={false}>
                 <Modal title='Заказ' onClose={closeModal}>

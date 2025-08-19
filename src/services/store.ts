@@ -8,14 +8,14 @@ import {
 
 import { ConstructorSlice } from './slices/ConstructorSlice/ConstructorSlice';
 import { IngredientSlice } from './slices/IngredientSlice/IngredientSlice';
-// import { UserSlice } from './slices/UserSlice/UserSlice';
+import { UserSlice } from './slices/UserSlice/UserSlice';
 import { OrderSlice } from './slices/OrderSlice/OrderSlice';
 import { FeedSlice } from './slices/FeedSlice/FeedSlice';
 
 const rootReducer = {
   [IngredientSlice.name]: IngredientSlice.reducer,
   [ConstructorSlice.name]: ConstructorSlice.reducer,
-  // [UserSlice.name]: UserSlice.reducer,
+  [UserSlice.name]: UserSlice.reducer,
   [OrderSlice.name]: OrderSlice.reducer,
   [FeedSlice.name]: FeedSlice.reducer
 };
