@@ -21,7 +21,7 @@ describe('Тестирование сценария сборки бургера 
 
   describe('Добавление булки в бургер', () => {
     beforeEach(function () {
-      cy.visit('localhost:4000/');
+      cy.visit('/');
     });
 
     it('Добавление и проверка булки', () => {
@@ -33,7 +33,7 @@ describe('Тестирование сценария сборки бургера 
 
   describe('Тестирование модального окна ингредиента', () => {
     beforeEach(function () {
-      cy.visit('localhost:4000/');
+      cy.visit('/');
     });
 
     it('Открытие модального окна', function () {
@@ -41,6 +41,7 @@ describe('Тестирование сценария сборки бургера 
       cy.get(testIngredient).click();
       cy.get(ingredientInfoModal).should('exist');
       cy.get(testIngredient).should('exist');
+      cy.get(ingredientInfoModal).contains(testIngredientName).should('exist');
     });
 
     describe('Закрытие модального окна', function () {
@@ -74,7 +75,7 @@ describe('Тестирование сценария сборки бургера 
         JSON.stringify('mockRefreshToken')
       );
       cy.setCookie('accessToken', 'mockAccessToken');
-      cy.visit('localhost:4000/');
+      cy.visit('/');
     });
 
     afterEach(function () {
@@ -99,6 +100,12 @@ describe('Тестирование сценария сборки бургера 
 
       cy.get(closeModalButton).click();
       cy.get('div').contains(orderNumber).should('not.exist');
+    });
+    
+    it('Конструктор очищается', function(){
+      cy.get(topBun).should('not.exist');
+      cy.get(bottomBun).should('not.exist');
+      cy.get(burgerIngredient).contains(testMainIngredientName).should('not.exist');
     });
   });
 });
