@@ -4,7 +4,7 @@ import {
   updateUser,
   userDataSelector
 } from './../../services/slices/UserSlice/UserSlice';
-import { useDispatch, useSelector } from './../../services/store';
+import { useDispatch, useSelector } from '../../services/store/store';
 import { useNavigate } from 'react-router-dom';
 import { TRegisterData } from '@api';
 

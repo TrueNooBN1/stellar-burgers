@@ -30,7 +30,7 @@ interface IOrderSlice {
   error: string | null;
 }
 
-const initialState: IOrderSlice = {
+export const initialState: IOrderSlice = {
   orders: [],
   order: null,
   status: ReqStatus.Idle,
