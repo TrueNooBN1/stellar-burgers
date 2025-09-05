@@ -4,6 +4,7 @@ const testMainIngredient = '[data-cy="643d69a5c3f7b9001cfa0941"]';
 const testIngredientName = 'Краторная булка N-200i';
 const testMainIngredientName = 'Биокотлета из марсианской Магнолии';
 const closeModalButton = '[data-cy=close-modal]';
+const orderNumberModal = '[data-cy=orderNumber]';
 const topBun = '[data-cy=constructorTopBun]';
 const bottomBun = '[data-cy=constructorBottomBun]';
 const burgerIngredient = '[data-cy=constructorIngredient]';
@@ -96,13 +97,11 @@ describe('Тестирование сценария сборки бургера 
       cy.get(burgerIngredient).contains(testMainIngredientName).should('exist');
 
       cy.get('[data-cy=orderButton]').contains('Оформить заказ').click();
-      cy.get('[data-cy=orderNumber]').contains(orderNumber).should('exist');
+      cy.get(orderNumberModal).contains(orderNumber).should('exist');
 
       cy.get(closeModalButton).click();
-      cy.get('div').contains(orderNumber).should('not.exist');
-    });
-    
-    it('Конструктор очищается', function(){
+      cy.get(orderNumberModal).should('not.exist');
+
       cy.get(topBun).should('not.exist');
       cy.get(bottomBun).should('not.exist');
       cy.get(burgerIngredient).contains(testMainIngredientName).should('not.exist');
