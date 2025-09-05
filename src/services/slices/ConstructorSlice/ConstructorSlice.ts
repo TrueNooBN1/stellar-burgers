@@ -1,7 +1,7 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { ReqStatus, TConstructorIngredient, TIngredient } from '@utils-types';
 
-interface IConstructorSlice {
+export interface IConstructorSlice {
   bun: TConstructorIngredient | null;
   ingredients: TConstructorIngredient[];
 }
