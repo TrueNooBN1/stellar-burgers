@@ -77,7 +77,7 @@ interface IUserSlice {
   loginUserRequestStatus: ReqStatus;
 }
 
-const initialState: IUserSlice = {
+export const initialState: IUserSlice = {
   isAuthChecked: false,
   isAuthenticated: false,
   data: null,
@@ -186,6 +186,7 @@ export const UserSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.isAuthenticated = false;
+        state.loginUserRequestStatus = ReqStatus.Success;
         state.data = null;
         state.loginUserError = null;
       })
